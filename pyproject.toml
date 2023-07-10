@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "growbeyond"
+version = "0.1.0"
+description = ""
+authors = ["growbeyond"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.3"
+djangorestframework = "^3.14.0"
+djangorestframework-simplejwt = "^5.2.2"
+django-environ = "^0.10.0"
+requests = "^2.31.0"
+django-cors-headers = "^4.1.0"
+gunicorn = "^20.1.0"
+django-taggit = "^4.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
