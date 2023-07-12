@@ -61,7 +61,7 @@ class PossibleBoard(CommonModel):
     )
 
     # 특허 내용(최대한 자세히 서술하기)
-    description = models.TextField(max_length=200, blank=False)
+    description = models.TextField(max_length=300, blank=False)
 
     # 첨부파일
     file = models.FileField(upload_to="possible/", blank=True)
