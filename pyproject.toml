@@ -15,6 +15,7 @@ requests = "^2.31.0"
 django-cors-headers = "^4.1.0"
 gunicorn = "^20.1.0"
 django-taggit = "^4.0.0"
+django-taggit-templatetags2 = "^1.6.1"
 
 
 [build-system]

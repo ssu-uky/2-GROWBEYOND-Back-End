@@ -27,7 +27,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "taggit",
-    # "taggit_templatetags2",
+    "taggit_templatetags2",
 ]
 
 # 태그 설정
