@@ -32,7 +32,6 @@ THIRD_PARTY_APPS = [
 
 # 태그 설정
 TAGGIT_CASE_INSENSITIVE = True # 태그의 대소문자 구분 안함
-# TAGGIT_LIMIT = 5 # 태그 5개까지 가능
 
 CUSTOM_APPS = [
     "users.apps.UsersConfig",
