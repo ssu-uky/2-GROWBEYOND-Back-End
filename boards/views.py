@@ -6,11 +6,10 @@ from rest_framework.exceptions import (
     PermissionDenied,
 )
 from django.contrib.auth.hashers import check_password
-from taggit.models import Tag
 
 
 from .models import PossibleBoard
-from .serializers import PossibleBoardSerializer
+from .serializers import PossibleBoardSerializer,PossibleBoardListSerializer
 
 
 # 로그인 없이 모두 작성 가능
@@ -18,28 +17,24 @@ class PossibleBoardWrite(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        keywords = request.data.get("keywords", "")
-        keywords = keywords.split()  # split by space
-        if len(keywords) > 5:
-            return Response({"error": "키워드는 최대 5개까지만 가능합니다."}, status=status.HTTP_400_BAD_REQUEST)
-
-        data = request.data.copy()  # request.data is immutable
-        data["keywords"] = [keyword.strip() for keyword in keywords]
-
         serializer = PossibleBoardSerializer(data=request.data)
         if serializer.is_valid():
-            instance = serializer.save()
-
-            instance.keywords.clear()
-            for keyword in data["keywords"]:
-                instance.keywords.add(keyword)
-
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# 게시글 조회, 수정, 삭제 // 비밀번호로 확인
+# 게시를 리스트
+class PossibleBoardList(APIView):
+    def get(self, request):
+        possible_board = PossibleBoard.objects.all()
+        serializer = PossibleBoardListSerializer(possible_board, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+# 게시글 자세히 조회, 수정, 삭제 // 비밀번호로 확인
 class PossibleBoardDetail(APIView):
     
     # 게시글 조회를 위해 필요한 부분

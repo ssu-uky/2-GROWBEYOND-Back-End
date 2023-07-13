@@ -9,8 +9,8 @@ class PossibleBoardAdmin(admin.ModelAdmin):
         "title",
         "name",
         "email",
-        "position",
-        "get_keywords",
+        # "position",
+        # "get_keywords",
         # "keywords",
         "created_at",
     )
@@ -21,17 +21,17 @@ class PossibleBoardAdmin(admin.ModelAdmin):
         "title",
         "name",
         "email",
-        "keywords",
-        "position",
+        # "keywords",
+        # "position",
     )
 
     search_fields = (
         "title",
         "name",
-        "keywords",
+        # "keywords",
     )
     
-    # 키워드를 보기 위한 메서드
-    def get_keywords(self, obj):
-        return obj.get_keywords()
-    get_keywords.short_description = 'Keywords'
+    # # 키워드를 보기 위한 메서드
+    # def get_keywords(self, obj):
+    #     return obj.get_keywords()
+    # get_keywords.short_description = 'Keywords'

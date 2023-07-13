@@ -18,7 +18,9 @@ uploads/**/*
 uploads/**/**/*
 uploads/**/**/**/*
 
-readme.me
+readme.md
+nohup.out
+
 
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/

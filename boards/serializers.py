@@ -4,7 +4,17 @@ from django.core.exceptions import ValidationError
 
 
 class PossibleBoardSerializer(ModelSerializer):
-    
     class Meta:
         model = PossibleBoard
         fields = "__all__"
+
+
+class PossibleBoardListSerializer(ModelSerializer):
+    class Meta:
+        model = PossibleBoard
+        fields = (
+            "pk",
+            "title",
+            "name",
+            "created_at",
+        )
