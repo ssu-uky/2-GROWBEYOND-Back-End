@@ -162,11 +162,19 @@ CORS_ORIGIN_ALLOW = True
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:3000",
+    "https://growbeyond.store",
+    "https://www.growbeyond.store",
+    "https://manage.growbeyond.store",
+    "https://www.manage.growbeyond.store",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:3000",
+    "https://growbeyond.store",
+    "https://www.growbeyond.store",
+    "https://manage.growbeyond.store",
+    "https://www.manage.growbeyond.store",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
