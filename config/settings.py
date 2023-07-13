@@ -191,37 +191,6 @@ REST_FRAMEWORK = {
 }
 
 
-# JWT settings
-REST_USE_JWT = True
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),  # 토큰 유효 시간
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # 리프레시 토큰 유효 시간
-    "ROTATE_REFRESH_TOKENS": False,  # 새로고침 토큰 사용 여부
-    "BLACKLIST_AFTER_ROTATION": True,  # 블랙리스트 사용 여부
-    "SIGNING_KEY": SECRET_KEY,
-    "ALGORITHM": "HS256",
-    "VERIFYING_KEY": None,
-    "UPDATE_LAST_LOGIN": True,
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "USER_ID_CLAIM": "email",  # 사용자의 아이디 JWT 토큰에 저장할 필드
-    "AUTH_TOKEN_CLASSES": (
-        "rest_framework_simplejwt.tokens.UntypedToken",
-        "rest_framework_simplejwt.tokens.AccessToken",
-    ),
-    "TOKEN_TYPE_CLAIM": "token_type",  # 토큰 타입 필드
-    "JTI_CLAIM": "jti",  # JWT ID 필드
-    "TOKEN_USER_CLASS": "users.User",
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=30),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-}
-
-
 # APPEND_SLASH = True
 
 
@@ -236,7 +205,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = "uploads"
 
 # 파일이 실제로 위치하는 곳 // 브라우저가 파일을 찾아가는 방법
-MEDIA_URL = "user-uploads/"
+MEDIA_URL = "uploads/"
 
 # 한 페이지 당 보여줄 갯수
 PAGE_SIZE = 10

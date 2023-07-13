@@ -12,9 +12,9 @@ class PossibleBoard(CommonModel):
     제목, 신청자 이름, 개인/기업, 이메일, 비번, 키워드, 내용, 첨부파일
     """
 
-    # 제목 / 발명의 명칭(키워드)
+    # 제목 / 발명의 명칭(키워드) / 최대 5단어 / 띄어쓰기 금지 / 쉼표로 구분
     title = models.CharField(
-        max_length=20,
+        max_length=30,
         blank=False,
     )
 

@@ -1,3 +1,13 @@
+import environ
+
+env = environ.Env()
+
+import requests
+import xml.etree.ElementTree as ET  
+from bs4 import BeautifulSoup
+import json
+
+
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
@@ -9,10 +19,30 @@ from django.contrib.auth.hashers import check_password
 
 
 from .models import PossibleBoard
-from .serializers import PossibleBoardSerializer,PossibleBoardListSerializer
+from .serializers import PossibleBoardSerializer, PossibleBoardListSerializer
+
+# 하단 크롤링을 위한 정보
+def parse_xml(xml_string):
+    root = ET.fromstring(xml_string)
+
+    items = root.findall(".//PatentUtilityInfo")
+    data = []
+
+    for item in items:
+        result = {}
+        # 발명 날짜
+        result['ApplicationDate'] = item.find('ApplicationDate').text if item.find('ApplicationDate') is not None else None
+        # 발명의 명칭
+        result['InventionName'] = item.find('InventionName').text if item.find('InventionName') is not None else None
+        # 발명자
+        result['Applicant'] = item.find('Applicant').text if item.find('Applicant') is not None else None
+        # 발명 현황
+        result['RegistrationStatus'] = item.find('RegistrationStatus').text if item.find('RegistrationStatus') is not None else None
+        data.append(result)
+    return data
 
 
-# 로그인 없이 모두 작성 가능
+# 로그인 없이 게시글 작성 가능 / kipris 조회
 class PossibleBoardWrite(APIView):
     permission_classes = [AllowAny]
 
@@ -20,9 +50,43 @@ class PossibleBoardWrite(APIView):
         serializer = PossibleBoardSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            title = serializer.data["title"]
+            words = title.replace(",", "").split()  # ,와 띄어쓰기 제거
+            
+            results = []
+
+            access_key = env("access_key")
+            kipris_url = "http://plus.kipris.or.kr/openapi/rest/patUtiModInfoSearchSevice/freeSearchInfo?word={word}&accessKey={access_key}"
+
+            for word in words:
+                url = kipris_url.format(word=word, access_key=access_key)
+                response = requests.get(url)
+
+                # xml 형식의 데이터를 파싱하고 원하는 정보를 추출하여 json 형식으로 저장
+                data = parse_xml(response.text)
+
+                results.extend(data) # 한번에 보여주는 방식
+            
+            # 모든 결과의 개수를 구함
+            total_count = sum(len(result) for result in results)
+
+            return Response({"total_count": total_count, "results": results}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# # 로그인 없이 모두 작성 가능
+# class PossibleBoardWrite(APIView):
+#     permission_classes = [AllowAny]
+
+#     def post(self, request):
+#         serializer = PossibleBoardSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # 게시를 리스트
