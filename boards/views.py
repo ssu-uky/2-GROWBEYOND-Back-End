@@ -107,7 +107,6 @@ class PossibleBoardList(APIView):
 
 # 게시글 자세히 조회, 수정, 삭제 // 비밀번호로 확인
 class PossibleBoardDetail(APIView):
-    
     # 게시글 조회를 위해 필요한 부분
     def get_object(self, post_pk):
         try:
