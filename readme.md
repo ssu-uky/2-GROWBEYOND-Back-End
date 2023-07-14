@@ -1,1 +1,1 @@
-export PATH="/root/.local/bin:$PATH"
+https://growbeyond.store/
