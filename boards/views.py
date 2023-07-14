@@ -69,25 +69,32 @@ class PossibleBoardWrite(APIView):
                 results.extend(data) # 한번에 보여주는 방식
             
             # 모든 결과의 개수를 구함
-            total_count = sum(len(result) for result in results)
-
-            return Response({"total_count": total_count, "results": results}, status=status.HTTP_201_CREATED)
+            # total_count = sum(len(result) for result in results)
+            # total_count = 0
+            # for result in results:
+            #     total_count+=len(result)
+            
+            total_count = len(results)
+            
+            
+            global board
+            board = {
+                "title": title,
+                "total_count": total_count,
+                "results": results
+            }
+            
+            return Response(board, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# # 로그인 없이 모두 작성 가능
-# class PossibleBoardWrite(APIView):
-#     permission_classes = [AllowAny]
-
-#     def post(self, request):
-#         serializer = PossibleBoardSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
+    def get(self, request):
+        global board
+        if board is not None:
+            return Response(board, status=200)
+        else:
+            return Response({"message":"데이터가 없습니다."}, status=204)
+        
 
 # 게시를 리스트
 class PossibleBoardList(APIView):
@@ -120,7 +127,6 @@ class PossibleBoardDetail(APIView):
         self.check_password(possible_board, password)
         return possible_board
     
-        
     # 게시글 조회
     def get(self, request, post_pk):
         possible_board = self.validate_contents(request, post_pk)
@@ -133,11 +139,11 @@ class PossibleBoardDetail(APIView):
         serializer = PossibleBoardSerializer(possible_board, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({"message": "수정되었습니다."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # 게시글 삭제
     def delete(self, request, post_pk):
         possible_board = self.validate_contents(request, post_pk)
         possible_board.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)

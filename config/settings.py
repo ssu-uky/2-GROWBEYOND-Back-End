@@ -202,10 +202,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
 # 파일을 노출 시키는 방법 // 파일이 실제로 있는 폴더
-MEDIA_ROOT = "uploads"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'boards/possible/')
 
 # 파일이 실제로 위치하는 곳 // 브라우저가 파일을 찾아가는 방법
-MEDIA_URL = "uploads/"
+MEDIA_URL = "/uploads/"
+
+# 파일 업로드 사이즈 최댓값 설정 (2.5MB)
+# FILE_UPLOAD_MAX_MEMORY_SIZE = '2621440'
 
 # 한 페이지 당 보여줄 갯수
 PAGE_SIZE = 10

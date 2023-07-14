@@ -28,7 +28,17 @@ class PossibleBoardSerializer(ModelSerializer):
     
     class Meta:
         model = PossibleBoard
-        fields = "__all__"
+        fields = (
+            "pk",
+            "title",
+            "name",
+            "telephone",
+            "email",
+            "password",
+            "description",
+            "counsling",
+            "file",
+        )
 
 
 # list를 위한 serializer
